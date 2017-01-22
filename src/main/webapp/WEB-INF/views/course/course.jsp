@@ -26,8 +26,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-3">
                     <div class="user-wrapper">
-                        <%--<img src="/resources/images/user/cover.png" class="img-responsive" />--%>
-                        <img src="/resources/images/user/${course.name.trim()}.jpg" class="img-responsive" />
+                        <img src="/image/${course.id}" class="img-responsive" />
                         <div class="description">
                             <br/>
                             <h5><strong>Teacher</strong></h5>

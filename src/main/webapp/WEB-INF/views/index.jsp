@@ -159,7 +159,7 @@
             <c:forEach items="${courses}" var="course" end="3">
                 <li>
                     <div class="preview">
-                        <img alt=" " src="/resources/images/user/${course.name.trim()}.jpg">
+                        <img alt=" " src="/image/${course.id}">
                         <div class="overlay">
                         </div>
                         <div class="links">
