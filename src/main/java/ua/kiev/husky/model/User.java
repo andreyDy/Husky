@@ -7,7 +7,6 @@ import ua.kiev.husky.validation.RegistrationForm;
 import ua.kiev.husky.validation.UserForm;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 

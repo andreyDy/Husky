@@ -1,7 +1,9 @@
-package ua.kiev.husky.mvc;
+package ua.kiev.husky.controller;
 
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ua.kiev.husky.exception.NameExistsException;
 import ua.kiev.husky.model.Course;
+import ua.kiev.husky.model.Cover;
 import ua.kiev.husky.model.User;
-import ua.kiev.husky.exception.PhotoErrorException;
 import ua.kiev.husky.security.CurrentUser;
 import ua.kiev.husky.security.UserInfo;
 import ua.kiev.husky.service.CourseService;
@@ -19,15 +21,12 @@ import ua.kiev.husky.validation.CourseForm;
 import ua.kiev.husky.validation.validator.CourseFormTimeValidator;
 
 import javax.validation.Valid;
-import java.io.*;
-import java.util.Set;
 
 
 @Controller
 public class CourseController {
 
-    @Autowired
-    private ResourceLoader resourceLoader;
+    private static final Logger LOGGER = LogManager.getLogger(CourseController.class);
 
     @Autowired
     private UserService userService;
@@ -76,38 +75,18 @@ public class CourseController {
         if (result.hasErrors()) {
             return "course/courseAdd";
         }
-        if (cover.isEmpty()) {
-            throw new PhotoErrorException();
-        }
-        saveFile(cover, courseForm.getName());
-        User teacher = userService.findByEmail(userInfo.getEmail());
-        if (!createCourse(new Course(courseForm, teacher), result)) {
+        final Cover courseCover = new Cover(cover, courseForm.getName());
+        final User teacher = userService.findByEmail(userInfo.getEmail());
+        final Course course = new Course(courseForm, teacher, courseCover);
+        try {
+            courseService.createCourse(course);
+            LOGGER.info("New course was created, name : " + course.getName());
+        } catch (NameExistsException e) {
+            LOGGER.warn("Can`t create new course : course name is not unique !", e);
+            result.rejectValue("name", "valid.courseNameIsNotUnique");
             return "course/courseAdd";
         }
         return "redirect:/settings/course/add/success";
-    }
-
-    private boolean createCourse(Course course, BindingResult result) {
-        try {
-            courseService.createCourse(course);
-        } catch (NameExistsException e) {
-            result.rejectValue("name", "valid.courseNameIsNotUnique");
-            return false;
-        }
-        return true;
-    }
-
-    private void saveFile(MultipartFile file, String courseName) {
-        String type = file.getOriginalFilename().split("\\.")[1];
-        String fileName = courseName.trim() + "." + type;
-        try (BufferedOutputStream out = new BufferedOutputStream(
-                new FileOutputStream(
-                        resourceLoader.getResource("/resources/images/user/" + fileName).getFile()))) {
-            out.write(file.getBytes());
-            out.flush();
-        } catch (IOException e) {
-            throw new PhotoErrorException();
-        }
     }
 
     @RequestMapping(value = "/settings/course/add/success")

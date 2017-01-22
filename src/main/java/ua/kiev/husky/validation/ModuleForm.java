@@ -2,7 +2,6 @@ package ua.kiev.husky.validation;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import java.util.List;
 
 public class ModuleForm {

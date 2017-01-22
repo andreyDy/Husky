@@ -2,12 +2,9 @@ package ua.kiev.husky.dao.jpa;
 
 import org.springframework.stereotype.Repository;
 import ua.kiev.husky.dao.ModuleDao;
-import ua.kiev.husky.dao.UserDao;
 import ua.kiev.husky.model.Module;
-import ua.kiev.husky.model.User;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;

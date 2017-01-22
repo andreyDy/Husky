@@ -12,7 +12,6 @@ import ua.kiev.husky.model.Course;
 import ua.kiev.husky.model.User;
 import ua.kiev.husky.service.UserService;
 
-import java.util.List;
 import java.util.Set;
 
 

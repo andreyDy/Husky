@@ -6,7 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import ua.kiev.husky.validation.CourseForm;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -45,6 +44,10 @@ public class Course {
     @OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Module> modules;
 
+    @OneToOne(fetch=FetchType.EAGER, cascade=CascadeType.ALL)
+    @JoinColumn(name = "cover_id")
+    private Cover cover;
+
     protected Course() {
     }
 
@@ -56,13 +59,14 @@ public class Course {
         this.teacher = teacher;
     }
 
-    public Course(CourseForm courseForm, User teacher) {
+    public Course(CourseForm courseForm, User teacher, Cover cover) {
         this.name = courseForm.getName();
         this.shortDescription = courseForm.getShortDescription();
         this.description = courseForm.getDescription();
         this.startDate = courseForm.getStartDate();
         this.endDate = courseForm.getEndDate();
         this.teacher = teacher;
+        this.cover = cover;
     }
 
     public int getId() {
@@ -137,6 +141,14 @@ public class Course {
         this.modules = modules;
     }
 
+    public Cover getCover() {
+        return cover;
+    }
+
+    public void setCover(Cover cover) {
+        this.cover = cover;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -159,7 +171,11 @@ public class Course {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Course{");
-        sb.append(", modules=").append(modules);
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", shortDescription='").append(shortDescription).append('\'');
+        sb.append(", startDate=").append(startDate);
+        sb.append(", endDate=").append(endDate);
         sb.append('}');
         return sb.toString();
     }

@@ -23,7 +23,7 @@
                 <div class="sl-slide item1" data-orientation="horizontal" data-slice1-rotation="-25" data-slice2-rotation="-25" data-slice1-scale="2" data-slice2-scale="2">
                     <div class="sl-slide-inner">
                         <div class="container">
-                            <img class="pull-right" src="/resources/images/slider/img${vs.index + 1}.png" alt="" />
+                            <img class="pull-right" src="/image/${course.id}" alt="" />
                             <h2>${course.name}</h2>
                             <h3 class="gap">${course.shortDescription}</h3>
                             <a class="btn btn-large btn-transparent" href="/course/${course.id}">Enroll</a>

@@ -7,6 +7,12 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `date_birth` DATE NULL,
   PRIMARY KEY (`id`));
 
+CREATE TABLE IF NOT EXISTS `Covers` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(128) NOT NULL,
+  `file` blob NOT NULL,
+  PRIMARY KEY (`id`));
+
 CREATE TABLE IF NOT EXISTS `Courses` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
@@ -15,10 +21,16 @@ CREATE TABLE IF NOT EXISTS `Courses` (
   `start_date` DATE NOT NULL,
   `end_date` DATE NOT NULL,
   `teacher_id` INT NOT NULL,
+  `cover_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `teacher_id_fk`
-    FOREIGN KEY (`teacher_id`)
-    REFERENCES `Users` (`id`)
+  FOREIGN KEY (`teacher_id`)
+  REFERENCES `Users` (`id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `cover_id_fk`
+  FOREIGN KEY (`cover_id`)
+  REFERENCES `Covers` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
@@ -27,13 +39,13 @@ CREATE TABLE IF NOT EXISTS `UserCourses` (
   `course_id` INT NOT NULL,
   PRIMARY KEY (`user_id`, `course_id`),
   CONSTRAINT `user_id_fk`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `Users` (`id`)
+  FOREIGN KEY (`user_id`)
+  REFERENCES `Users` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `course_id_fk`
-    FOREIGN KEY (`course_id`)
-    REFERENCES `Courses` (`id`)
+  FOREIGN KEY (`course_id`)
+  REFERENCES `Courses` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
@@ -45,8 +57,8 @@ CREATE TABLE IF NOT EXISTS `Modules` (
   `course_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `course_id_fk_cn`
-    FOREIGN KEY (`course_id`)
-    REFERENCES `Courses` (`id`)
+  FOREIGN KEY (`course_id`)
+  REFERENCES `Courses` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
 
@@ -56,9 +68,7 @@ CREATE TABLE IF NOT EXISTS `Videos` (
   `module_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   CONSTRAINT `module_id_fk`
-    FOREIGN KEY (`module_id`)
-    REFERENCES `Modules` (`id`)
+  FOREIGN KEY (`module_id`)
+  REFERENCES `Modules` (`id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE);
-
-

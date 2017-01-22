@@ -21,8 +21,7 @@
             <c:forEach items="${courses}" var="course">
                 <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
                     <div class="hovereffect">
-                        <%--<img src="/resources/images/user/cover.png" class="img-responsive" alt=""/>--%>
-                        <img src="/resources/images/user/${course.name.trim()}.jpg" class="img-responsive" alt=""/>
+                        <img src="/image/${course.id}" class="img-responsive" alt=""/>
                         <div class="overlay">
                             <h2>${course.name}</h2>
                             <a class="info" href="/course/${course.id}">${course.shortDescription}</a>

@@ -3,7 +3,8 @@ package ua.kiev.husky.model;
 import ua.kiev.husky.validation.ModuleForm;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Modules")

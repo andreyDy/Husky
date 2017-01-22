@@ -4,7 +4,9 @@ import org.springframework.stereotype.Repository;
 import ua.kiev.husky.dao.UserDao;
 import ua.kiev.husky.model.User;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 
